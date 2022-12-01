@@ -1,0 +1,62 @@
+*,
+:root {
+  --primary-color: #483514
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  overflow-x: hidden;
+  overflow-y: overlay;
+}
+
+.rounded-md {
+  border-radius: 1.25rem;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: 70px 1fr 70px;
+  grid-template-areas: "header" "main" "footer";
+  gap: 1rem;
+}
+
+.app__header {
+  grid-area: header;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.app__main {
+  grid-area: main;
+  display: grid;
+  overflow-x: overlay;
+}
+
+.app__footer {
+  border-top: 1px solid var(--primary-color);
+  grid-area: footer;
+}
+
+.draw-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.draw-area__controls {
+  background-color: var(--primary-color);
+  width: inherit;
+}
+
+.draw-area__canvas {
+  border: 1px solid var(--primary-color);
+}
