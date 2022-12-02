@@ -14,7 +14,7 @@ body {
   min-height: 100vh;
   display: flex;
   overflow-x: hidden;
-  overflow-y: overlay;
+  overflow-y: hidden;
 }
 
 img {
@@ -47,6 +47,7 @@ img {
 
 .draw-area {
   display: flex;
+  gap: 2rem;
   height: 100%;
   flex-direction: column;
 }

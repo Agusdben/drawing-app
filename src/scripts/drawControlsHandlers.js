@@ -10,6 +10,6 @@ export const handlePencil = ({ ctx, x, y }) => {
 export const handleRubber = ({ ctx, x, y }) => {
   ctx.beginPath()
   ctx.fillStyle = '#fff'
-  ctx.arc(x, y, drawConfig.radius, 0, 2 * Math.PI)
+  ctx.arc(x, y, drawConfig.radius * 1.2, 0, 2 * Math.PI)
   ctx.fill()
 }

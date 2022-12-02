@@ -2,18 +2,22 @@ import './style.css'
 import 'normalize.css'
 import CONTROLS from './constants/controls'
 import {
+  drawConfig,
   setCurrentColor,
   setCurrentControl,
   setRadius
 } from './scripts/drawConfig'
 import handleOnDraw from './scripts/handleOnDraw'
 import startUpCanvas from './scripts/startUpCanvas'
+import handleStopDrawing from './scripts/handleStopDrawing'
+import { handleRubber } from './scripts/drawControlsHandlers'
 
 const $ = selector => document.querySelector(selector)
 
 // drawing controlls
 const $pencil = $('#pencil')
 const $rubber = $('#rubber')
+const $undo = $('#undo')
 const $radius = $('#radius')
 const $color = $('#color')
 setRadius($radius.value)
@@ -41,6 +45,20 @@ $color.addEventListener('change', e => {
   setCurrentColor(e.target.value)
 })
 
+$undo.addEventListener('click', () => {
+  const currentControl = drawConfig.currentControl
+  setCurrentControl(CONTROLS.RUBBER)
+  const lastTrace = drawConfig.trace.pop()
+  if (!lastTrace) {
+    setCurrentControl(currentControl)
+    return
+  }
+  lastTrace.forEach(({ x, y }) => {
+    handleRubber({ ctx, x, y })
+  })
+  setCurrentControl(currentControl)
+})
+
 // start drawing
 $canvas.addEventListener('mousedown', () => {
   $canvas.addEventListener('mousemove', handleOnDraw)
@@ -53,8 +71,7 @@ $canvas.addEventListener('touchmove', evt => {
 })
 
 // stop drawing
-document.addEventListener('mouseup', () => {
-  // we need add this event on document because the user
-  // can release the button outside of canvas
-  $canvas.removeEventListener('mousemove', handleOnDraw)
-})
+// we need add this event on document because the user
+// can release the button outside of canvas
+$canvas.addEventListener('mouseleave', handleStopDrawing)
+$canvas.addEventListener('mouseup', handleStopDrawing)
