@@ -12,51 +12,48 @@
 body {
   width: 100vw;
   min-height: 100vh;
-  display: grid;
+  display: flex;
   overflow-x: hidden;
   overflow-y: overlay;
 }
 
-.rounded-md {
-  border-radius: 1.25rem;
+img {
+  max-width: 100%;
 }
 
 .app {
+  flex: 1;
   display: grid;
   grid-template-rows: 70px 1fr 70px;
-  grid-template-areas: "header" "main" "footer";
-  gap: 1rem;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
 }
 
 .app__header {
   grid-area: header;
-  border-bottom: 1px solid var(--primary-color);
 }
 
 .app__main {
   grid-area: main;
-  display: grid;
-  overflow-x: overlay;
+  height: 100%;
 }
 
 .app__footer {
-  border-top: 1px solid var(--primary-color);
   grid-area: footer;
+  border-top: 1px solid var(--primary-color);
 }
 
 .draw-area {
   display: flex;
+  height: 100%;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
 }
 
-.draw-area__controls {
-  background-color: var(--primary-color);
-  width: inherit;
-}
+.draw-area__controls {}
 
-.draw-area__canvas {
-  border: 1px solid var(--primary-color);
+.draw-area__draw {
+  flex: 1;
+  border: 1px solid red;
 }

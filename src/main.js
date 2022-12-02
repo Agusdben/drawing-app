@@ -1,40 +1,44 @@
 import './style.css'
 import 'normalize.css'
-import CONTROLS from './constants/controlls'
-import getMousePos from './scripts/getMousePos'
-import { handlePencil, handleRubber } from './scripts/drawControlsHandlers'
+import CONTROLS from './constants/controls'
+import {
+  setCurrentColor,
+  setCurrentControl,
+  setRadius
+} from './scripts/drawConfig'
+import handleOnDraw from './scripts/handleOnDraw'
+import startUpCanvas from './scripts/startUpCanvas'
 
 const $ = selector => document.querySelector(selector)
-
-const handleOnDraw = evt => {
-  const { x, y } = getMousePos($canvas, evt)
-  switch (currentControl) {
-    case CONTROLS.PENCIL:
-      handlePencil({ ctx, x, y })
-      return
-    case CONTROLS.RUBBER:
-      handleRubber({ ctx, x, y })
-  }
-}
-
-// canvas
-const $canvas = $('#canvas')
-const ctx = $canvas.getContext('2d')
 
 // drawing controlls
 const $pencil = $('#pencil')
 const $rubber = $('#rubber')
-let currentControl = CONTROLS.PENCIL
+const $radius = $('#radius')
+const $color = $('#color')
+setRadius($radius.value)
+setCurrentColor($color.value)
 
-// events
+// canvas
+export const $canvas = $('#canvas')
+export const ctx = $canvas.getContext('2d')
+startUpCanvas()
+
+// controls events
 $pencil.addEventListener('click', () => {
-  currentControl = CONTROLS.PENCIL
-  console.log(currentControl)
+  setCurrentControl(CONTROLS.PENCIL)
 })
 
 $rubber.addEventListener('click', () => {
-  currentControl = CONTROLS.RUBBER
-  console.log(currentControl)
+  setCurrentControl(CONTROLS.RUBBER)
+})
+
+$radius.addEventListener('change', e => {
+  setRadius(e.target.value)
+})
+
+$color.addEventListener('change', e => {
+  setCurrentColor(e.target.value)
 })
 
 // start drawing
@@ -43,8 +47,14 @@ $canvas.addEventListener('mousedown', () => {
   $canvas.addEventListener('click', handleOnDraw)
 })
 
+$canvas.addEventListener('touchmove', evt => {
+  evt.preventDefault()
+  handleOnDraw(evt)
+})
+
 // stop drawing
 document.addEventListener('mouseup', () => {
-  // we need add this event on document because the user can release the button outside of canvas
+  // we need add this event on document because the user
+  // can release the button outside of canvas
   $canvas.removeEventListener('mousemove', handleOnDraw)
 })

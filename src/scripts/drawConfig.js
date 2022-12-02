@@ -1,6 +1,9 @@
+import CONTROLS from '../constants/controls'
+
 let drawConfig = {
-  currentColor: '#ffffff',
-  radius: 5
+  currentControl: CONTROLS.PENCIL,
+  currentColor: null,
+  radius: null
 }
 
 const setCurrentColor = color => {
@@ -17,4 +20,11 @@ const setRadius = radius => {
   }
 }
 
-export { drawConfig, setCurrentColor, setRadius }
+const setCurrentControl = control => {
+  drawConfig = {
+    ...drawConfig,
+    currentControl: control
+  }
+}
+
+export { drawConfig, setCurrentColor, setRadius, setCurrentControl }
