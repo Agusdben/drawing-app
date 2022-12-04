@@ -2,7 +2,6 @@ import './style.css'
 import 'normalize.css'
 import CONTROLS from './constants/controls'
 import {
-  drawConfig,
   setCurrentColor,
   setCurrentControl,
   setRadius
@@ -10,7 +9,7 @@ import {
 import handleOnDraw from './scripts/handleOnDraw'
 import startUpCanvas from './scripts/startUpCanvas'
 import handleStopDrawing from './scripts/handleStopDrawing'
-import { handleRubber } from './scripts/drawControlsHandlers'
+import { handleUndo } from './scripts/drawControlsHandlers'
 
 const $ = selector => document.querySelector(selector)
 
@@ -45,19 +44,7 @@ $color.addEventListener('change', e => {
   setCurrentColor(e.target.value)
 })
 
-$undo.addEventListener('click', () => {
-  const currentControl = drawConfig.currentControl
-  setCurrentControl(CONTROLS.RUBBER)
-  const lastTrace = drawConfig.trace.pop()
-  if (!lastTrace) {
-    setCurrentControl(currentControl)
-    return
-  }
-  lastTrace.forEach(({ x, y }) => {
-    handleRubber({ ctx, x, y })
-  })
-  setCurrentControl(currentControl)
-})
+$undo.addEventListener('click', handleUndo)
 
 // start drawing
 $canvas.addEventListener('mousedown', () => {
@@ -71,7 +58,5 @@ $canvas.addEventListener('touchmove', evt => {
 })
 
 // stop drawing
-// we need add this event on document because the user
-// can release the button outside of canvas
 $canvas.addEventListener('mouseleave', handleStopDrawing)
 $canvas.addEventListener('mouseup', handleStopDrawing)

@@ -1,6 +1,6 @@
 import CONTROLS from '../constants/controls'
 
-let drawConfig = {
+export let drawConfig = {
   currentControl: CONTROLS.PENCIL,
   currentColor: null,
   radius: null,
@@ -8,35 +8,41 @@ let drawConfig = {
   trace: []
 }
 
-const setCurrentColor = color => {
+export const setCurrentColor = color => {
   drawConfig = {
     ...drawConfig,
     currentColor: color
   }
 }
 
-const setRadius = radius => {
+export const setRadius = radius => {
   drawConfig = {
     ...drawConfig,
     radius
   }
 }
 
-const setCurrentControl = control => {
+export const setCurrentControl = control => {
   drawConfig = {
     ...drawConfig,
     currentControl: control
   }
 }
 
-const saveTraceBuffer = ({ x, y }) => {
+export const saveTraceBuffer = ({ x, y }) => {
   drawConfig = {
     ...drawConfig,
-    traceBuffer: drawConfig.traceBuffer.concat({ x, y })
+    traceBuffer: drawConfig.traceBuffer.concat({
+      x,
+      y,
+      radius: drawConfig.radius,
+      tool: drawConfig.currentControl,
+      color: drawConfig.currentColor
+    })
   }
 }
 
-const saveLastTraceBuffered = () => {
+export const saveLastTraceBuffered = () => {
   if (!drawConfig.traceBuffer.length) {
     return
   }
@@ -47,11 +53,8 @@ const saveLastTraceBuffered = () => {
   }
 }
 
-export {
-  drawConfig,
-  setCurrentColor,
-  setRadius,
-  setCurrentControl,
-  saveTraceBuffer,
-  saveLastTraceBuffered
+export const setConfig = config => {
+  drawConfig = {
+    ...config
+  }
 }
