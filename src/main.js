@@ -52,11 +52,11 @@ $canvas.addEventListener('mousedown', () => {
   $canvas.addEventListener('click', handleOnDraw)
 })
 
-$canvas.addEventListener('touchmove', evt => {
-  evt.preventDefault()
-  handleOnDraw(evt)
+$canvas.addEventListener('touchstart', () => {
+  $canvas.addEventListener('touchmove', handleOnDraw)
 })
 
 // stop drawing
 $canvas.addEventListener('mouseleave', handleStopDrawing)
 $canvas.addEventListener('mouseup', handleStopDrawing)
+$canvas.addEventListener('touchend', handleStopDrawing)
